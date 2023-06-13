@@ -1,4 +1,4 @@
-class Dev < ActiveRecord::Base
+class Dev < ApplicationRecord
     has_many :freebies
     has_many :companies, through: :freebies
   
@@ -7,9 +7,10 @@ class Dev < ActiveRecord::Base
     end
   
     def give_away(dev, freebie)
-      return unless freebies.include?(freebie)
-      freebie.update(dev: dev)
+      if freebie.dev == self
+        freebie.dev = dev
+        freebie.save
+      end
     end
-
-
 end
+  
